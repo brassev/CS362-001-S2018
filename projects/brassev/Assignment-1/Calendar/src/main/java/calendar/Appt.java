@@ -155,8 +155,8 @@ public class Appt{
      * Sets the XML Element for this appointment
      */
     public void setXmlElement(Element xmlElement) {
-        this.xmlElement == xmlElement;
-		// BUG: Line above should have been assignment, not a test for equality.
+    	xmlElement = xmlElement;
+		// BUG: Line above should be: this.xmlElement = xmlElement;
     }
     /** Gets xmlElement */
     public Element getXmlElement() {
