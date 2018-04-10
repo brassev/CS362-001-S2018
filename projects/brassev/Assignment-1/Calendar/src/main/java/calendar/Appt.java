@@ -16,29 +16,29 @@ import org.w3c.dom.Element;
  *  This class represents a single appointment that might be stored in
  *  an xml file.  The appointment consists of startHour, startMinute,
  *   startDay, startMonth, startYear, title, description, and emailAddress
- *   
- *   
+ *
+ *
  */
 /**
  * Stores the data of an appointment
  */
 public class Appt{
-    
+
     /** Used for knowing whether or not an appointment is valid or not */
     private boolean valid;
-    
+
 	/** The starting hour of the appointment */
     private int startHour;
-    
+
     /** The starting minute of the appointment */
     private int startMinute;
-    
+
     /** The starting day of the appointment */
     private int startDay;
-    
+
     /** The starting month of the appointment */
     private int startMonth;
-    
+
     /** The starting year of the appointment */
     private int startYear;
 
@@ -47,48 +47,48 @@ public class Appt{
 
     /** The description of the appointment */
     private String description;
-   
-    
+
+
     /** E-mail address associated with the appointment */
     private String emailAddress;
- 
+
     /** Used to represent time isn't set */
     private static final int NO_TIME = -1;
-    
+
     /** Used for setting appointments to recur weekly */
     public static final int RECUR_BY_WEEKLY = 1;
-    
+
     /** Used for setting appointments to recur monthly */
     public static final int RECUR_BY_MONTHLY = 2;
-    
+
     /** Used for setting appointments to recur yearly */
     public static final int RECUR_BY_YEARLY = 3;
-    
+
     /** Used for setting appointments to recur forever */
     public static final int RECUR_NUMBER_FOREVER = 1000;
-    
+
     /** Used for setting appointments to never recur */
     public static final int RECUR_NUMBER_NEVER = 0;
     /** Day(s) of the week that the appointment recurs on */
     private int[] recurDays;
-    
+
     /** What the appointment recurs on (weeks/months/years) */
     private int recurBy;
-    
+
     /** How often the appointment recurs on (every ? weeks/months/years) */
     private int recurIncrement;
-    
+
     /** How many recurrences (-1 for infinite, 0 by default) */
     private int recurNumber;
 
-    
+
     /** Element location of the appointment in XML tree */
     private Element xmlElement;
 
     // ----------------------------------------------------------
     /**
-     * Constructs a new appointment that starts at a specific time on the 
-     * date specified. The appointment is constructed with no recurrence 
+     * Constructs a new appointment that starts at a specific time on the
+     * date specified. The appointment is constructed with no recurrence
      * information by default. To set recurrence information, construct the
      * appointment and then call setRecurrence(...) method.
      * @param startHour The hour that the appointment starts on. The hours are
@@ -102,7 +102,7 @@ public class Appt{
      * @param emailAddress An e-mail address associated with the appointment
 
      */
-    public Appt(int startHour, int startMinute, 
+    public Appt(int startHour, int startMinute,
             int startDay, int startMonth, int startYear,
              String title, String description, String emailAddress ) {
 
@@ -115,26 +115,27 @@ public class Appt{
     setTitle(title);
     setDescription(description);
     setEmailAddress(emailAddress);
-    
+
     //Set default recurring information
     int[] recurringDays = new int[0];
     setRecurrence(recurringDays, RECUR_BY_MONTHLY, 0, RECUR_NUMBER_NEVER);
-    
+
     //Leave XML Element null
     setXmlElement(null);
-    
+
     //Sets valid to true - this is now a valid appointment
     this.valid = true;
+	// BUG: Should call setValid() to make sure that the newly created Appointment is actually valid (Appt(-1, 61, ...) would create a valid appointment even though it isn't actually valid.).
 }
     /**
-     * Constructs a new appointment that has no start time on the 
-     * date specified. The appointment is constructed with no recurrence 
+     * Constructs a new appointment that has no start time on the
+     * date specified. The appointment is constructed with no recurrence
      * information by default. To set recurrence information, construct the
-     * appointment and then call setRecurrence(...) method. The XmlElement 
+     * appointment and then call setRecurrence(...) method. The XmlElement
      * will be set when the appointment is saved to disk.
      * @param startDay The day of the month the appointment starts on
      * @param startMonth The month of the year the appointment starts on. Use
-     *  the constants provided by Gregorian Calendar to set the month. 
+     *  the constants provided by Gregorian Calendar to set the month.
      * @param startYear The year the appointment starts on.
      * @param title The title or caption to give the appointment
      * @param description The appointment's details
@@ -143,9 +144,9 @@ public class Appt{
     public Appt(int startDay, int startMonth, int startYear,
                 String title, String description,
                 String emailAddress) {
-                    
+
          //Just call the other constructor
-         this(NO_TIME, NO_TIME, startDay, startMonth, startYear, title, 
+         this(NO_TIME, NO_TIME, startDay, startMonth, startYear, title,
             description, emailAddress);
          this.valid=true;
     }
@@ -154,14 +155,15 @@ public class Appt{
      * Sets the XML Element for this appointment
      */
     public void setXmlElement(Element xmlElement) {
-        this.xmlElement = xmlElement;
+        this.xmlElement == xmlElement;
+		// BUG: Line above should have been assignment, not a test for equality.
     }
     /** Gets xmlElement */
     public Element getXmlElement() {
         return xmlElement;
     }
 
-  
+
     /**
      * @sets valid to true if the appointment is valid
      */
@@ -176,23 +178,24 @@ public class Appt{
 		else if (startYear <= 0)
 			this.valid = false;
 		else {
-			int NumDaysInMonth = CalendarUtil.NumDaysInMonth(startYear, startMonth - 1);
+			int NumDaysInMonth = CalendarUtil.NumDaysInMonth(startYear, startMonth);
+			// BUG: startMonth should have a minus one on the line above.
 			if (startDay < 1 || startDay > NumDaysInMonth)
 				this.valid = false;
 			else
 				this.valid = true;
 		}
 	}
-    
+
 
 
     /** Sets startHour */
     public void setStartHour(int startHour) {
     	this.startHour = startHour;
     }
-    
+
     /** Sets startHour */
-    public void setStartMinute(int startMinute) {   	
+    public void setStartMinute(int startMinute) {
         this.startMinute = startMinute;
     }
 
@@ -200,12 +203,12 @@ public class Appt{
     public void setStartDay(int startDay) {
         this.startDay = startDay;
     }
-    
+
     /** Sets startMonth */
     public void setStartMonth(int startMonth) {
         this.startMonth = startMonth;
     }
-    
+
     /** Sets startYear */
     public void setStartYear(int startYear) {
         this.startYear = startYear;
@@ -213,12 +216,12 @@ public class Appt{
 
     /** Sets title */
     public void setTitle(String title) {
-        if (title == null) 
+        if (title == null)
             this.title = "";
         else
             this.title = title;
     }
-    
+
     /** Sets description */
     public void setDescription(String description) {
         if (description == null)
@@ -232,42 +235,42 @@ public class Appt{
             this.emailAddress = "";
         else
             this.emailAddress = emailAddress;
-    }   
+    }
     /** Gets startHour */
     public int getStartHour() {
         return startHour;
     }
-    
+
     /** Gets startHour */
     public int getStartMinute() {
         return startMinute;
     }
-    
+
     /** Gets startDay */
     public int getStartDay() {
         return startDay;
     }
-    
+
     /** Gets startMonth */
     public int getStartMonth() {
         return startMonth;
     }
-    
+
     /** Gets startYear */
     public int getStartYear() {
         return startYear;
     }
- 
+
     /** Gets title */
     public String getTitle() {
         return title;
     }
-    
+
     /** Gets description */
     public String getDescription() {
         return description;
     }
-    
+
     /** Gets emailAddress */
     public String getEmailAddress() {
         return emailAddress;
@@ -278,21 +281,46 @@ public class Appt{
     }
     /**
      * Checks to see if an appointment occurs on a certain day, month, year.
-     * Takes recurrence into account.
+	 * Takes recurrence into account.
+	 * TODO: Make this function actually take recurrency into account
      * @return True if the appointment occurs on a certain day/month/year
      */
     public boolean isOn(int day, int month, int year) {
-        return (day == getStartDay() && month == getStartMonth() 
-                && year == getStartYear());
+		if (this.isRecurring()) {
+			switch(this.getRecurBy()) {
+				case RECUR_BY_YEARLY:
+				if (day == this.getStartDay() && month == this.getStartMonth()) {
+					// We're on a right month and right day
+					// Are we on a right year?
+					if (year - this.getStartYear() < this.getRecurNumber()) {
+						// BUG: This doesn't take into consideration if the year is less than the start year
+						// BUG: This doesn't take into consideration if the RecurNumber is RECUR_NUMBER_NEVER or RECUR_NUMBER_FOREVER
+						return true;
+					}
+				}
+				break;
+				case RECUR_BY_WEEKLY:
+				// BUG: Doesn't handle weekly recurrence
+				// Fall through to the default isOn behavior
+				case RECUR_BY_MONTHLY:
+				// BUG: Doesn't handle monthly recurrence
+				// Fall through to the default isOn behavior
+				default:
+				return (day == getStartDay() && month == getStartMonth()
+				&& year == getStartYear());
+			}
+		}
+		return (day == getStartDay() && month == getStartMonth()
+		&& year == getStartYear());
     }
-    
+
     /**
      * Checks to see if a time is set for this appointment.
      * @return True if this appointment has a time set. Otherwise false.
      */
     public boolean hasTimeSet() {
         return (getStartHour() != NO_TIME);
-    } 
+    }
     /**
      * Sets the recurring information with the correct information
      */
@@ -318,12 +346,12 @@ public class Appt{
     private void setRecurIncrement(int recurIncrement) {
         this.recurIncrement = recurIncrement;
     }
-    
+
     /** Sets recurNumber */
     private void setRecurNumber(int recurNumber) {
         this.recurNumber = recurNumber;
     }
-    
+
     /** Gets recurNumber */
     public int getRecurNumber() {
         return recurNumber;
@@ -335,7 +363,7 @@ public class Appt{
     /** Gets recurDays */
     public int[] getRecurDays() {
         return recurDays;
-    }    
+    }
     /**
      * Checks to see if an appointment recurrs or not
      * @return True if the appointment does occur more than once
@@ -346,7 +374,7 @@ public class Appt{
     /** Gets recurIncrement */
     public int getRecurIncrement() {
         return recurIncrement;
-    }   
+    }
     // ----------------------------------------------------------
     /**
      * Generate a string representation for this appointment, with the
@@ -356,7 +384,7 @@ public class Appt{
      * description.
      * @return a printable representation of this appointment
      */
-    private String represntationApp(){
+    private String representationApp(){
         String half = (getStartHour() > 11) ? "pm" : "am";
         int printableHour = getStartHour();
         if (printableHour > 11)
@@ -368,17 +396,19 @@ public class Appt{
             printableHour = 12;
         }
         String represntationApp= printableHour +":"+ getStartMinute() + half;
+		// BUG: This will never return just 11am: like the comment above says.
+		// NOTE: Where is the ending ":" and " "?
         return represntationApp;
-    	
+
     }
     public String toString()
     {
-    	
+
 		if (!getValid()) {
 		    System.err.println("\tThis appointment is not valid");
 		}
          String day= this.getStartMonth()+"/"+this.getStartDay()+"/"+this.getStartYear() + " at ";
-        return "\t"+ day +  this.represntationApp()  + " ," +  getTitle()+ ", "+  getDescription()+"\n";
+        return "\t"+ day +  this.representationApp()  + " ," +  getTitle()+ ", "+  getDescription()+"\n";
     }
 
 
