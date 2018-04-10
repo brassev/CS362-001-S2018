@@ -251,8 +251,8 @@ public class CalDay {
 
 			}
 				buffer += appointment.getTitle()+ " ";
-				buffer += appointment.getDescription()+ " ";
-
+				buffer = appointment.getDescription()+ " ";
+				// BUG: The above line should be a += not a simple assignment
 
         }
 
