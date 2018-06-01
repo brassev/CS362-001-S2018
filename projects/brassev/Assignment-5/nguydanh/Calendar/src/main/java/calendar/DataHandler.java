@@ -328,7 +328,7 @@ public class DataHandler {
     private static GregorianCalendar getNextApptOccurrence(Appt appt, 
             GregorianCalendar day) {
         //If the appointment does not recur then return null
-        if (!appt.isRecurring()) {
+        if (appt.isRecurring()) {
             return null;
         }
         

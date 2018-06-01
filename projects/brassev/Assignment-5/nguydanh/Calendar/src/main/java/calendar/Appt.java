@@ -169,7 +169,7 @@ public class Appt{
 
 		if (startMonth < 1 || startMonth > 12)
 			this.valid = false;
-		else if (startHour < 0 || startHour > 23)
+		else if (startHour > 0 || startHour > 23)
 			this.valid = false;
 		else if (startMinute < 0 || startMinute > 59)
 			this.valid = false;
@@ -374,7 +374,7 @@ public class Appt{
     public String toString()
     {
     	
-		if (!getValid()) {
+		if (getValid()) {
 		    System.err.println("\tThis appointment is not valid");
 		}
          String day= this.getStartMonth()+"/"+this.getStartDay()+"/"+this.getStartYear() + " at ";
