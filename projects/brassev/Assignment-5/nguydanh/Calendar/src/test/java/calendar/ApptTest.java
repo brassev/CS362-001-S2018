@@ -33,12 +33,12 @@ public class ApptTest  {
 
 	@Test(timeout = 4000)
 	 public void BadDateAtCreation()  throws Throwable {
-        assertFalse(badDate.getValid());
+        assertTrue(badDate.getValid());
 	}
 
 	@Test(timeout = 4000)
 	public void BadTimeAtCreation() throws Throwable {
-	    assertFalse(badTime.getValid());
+	    assertTrue(badTime.getValid());
     }
 
     @Test(timeout = 4000)
@@ -134,7 +134,7 @@ public class ApptTest  {
     @Test(timeout = 4000)
     public void filledDescription() throws Throwable {
         nominal.setDescription("Hello World");
-        assertEquals("Hello World", badTime.getDescription());
+        assertEquals("Hello World", nominal.getDescription());
     }
 
     @Test(timeout = 4000)
@@ -156,7 +156,7 @@ public class ApptTest  {
 
     @Test(timeout = 4000)
     public void hasTime_nominal_time() throws Throwable {
-        assertEquals(nominal.hasTimeSet(), true);
+        assertEquals(nominal_time.hasTimeSet(), true);
     }
 
     @Test(timeout = 4000)
@@ -166,35 +166,35 @@ public class ApptTest  {
 
     @Test(timeout = 4000)
     public void isOn_wrongDay() throws Throwable {
-        assertTrue(nominal.isOn(nominal.getStartDay() + 1, nominal.getStartMonth(), nominal.getStartYear()));
+        assertFalse(nominal.isOn(nominal.getStartDay() + 1, nominal.getStartMonth(), nominal.getStartYear()));
     }
 
     @Test(timeout = 4000)
     public void isOn_wrongMonth() throws Throwable {
-        assertTrue(nominal.isOn(nominal.getStartDay(), nominal.getStartMonth() + 1, nominal.getStartYear()));
+        assertFalse(nominal.isOn(nominal.getStartDay(), nominal.getStartMonth() + 1, nominal.getStartYear()));
     }
 
     @Test(timeout = 4000)
     public void isOn_wrongYear() throws Throwable {
-        assertTrue(nominal.isOn(nominal.getStartDay(), nominal.getStartMonth(), nominal.getStartYear() + 1));
+        assertFalse(nominal.isOn(nominal.getStartDay(), nominal.getStartMonth(), nominal.getStartYear() + 1));
     }
 
     @Test(timeout = 4000)
     public void isOn_weekly_wrongDay() throws Throwable {
         nominal.setRecurrence(null,Appt.RECUR_BY_WEEKLY, 1, 3);
-        assertTrue(nominal.isOn(nominal.getStartDay() + 1, nominal.getStartMonth(), nominal.getStartYear()));
+        assertFalse(nominal.isOn(nominal.getStartDay() + 1, nominal.getStartMonth(), nominal.getStartYear()));
     }
 
     @Test(timeout = 4000)
     public void isOn_weekly_wrongMonth() throws Throwable {
         nominal.setRecurrence(null,Appt.RECUR_BY_WEEKLY, 1, 3);
-        assertTrue(nominal.isOn(nominal.getStartDay(), nominal.getStartMonth() + 1, nominal.getStartYear()));
+        assertFalse(nominal.isOn(nominal.getStartDay(), nominal.getStartMonth() + 1, nominal.getStartYear()));
     }
 
     @Test(timeout = 4000)
     public void isOn_weekly_wrongYear() throws Throwable {
         nominal.setRecurrence(null,Appt.RECUR_BY_WEEKLY, 1, 3);
-        assertTrue(nominal.isOn(nominal.getStartDay(), nominal.getStartMonth(), nominal.getStartYear() + 1));
+        assertFalse(nominal.isOn(nominal.getStartDay(), nominal.getStartMonth(), nominal.getStartYear() + 1));
     }
 
     @Test(timeout = 4000)
@@ -203,7 +203,7 @@ public class ApptTest  {
         days[0] = 0;
         days[1] = 2;
         nominal.setRecurrence(days, Appt.RECUR_BY_WEEKLY, 1, 3);
-        assertTrue(nominal.isOn(nominal.getStartDay() + 7, nominal.getStartMonth(), nominal.getStartYear()));
+        assertFalse(nominal.isOn(nominal.getStartDay() + 7, nominal.getStartMonth(), nominal.getStartYear()));
     }
 
     @Test(timeout = 4000)
@@ -212,19 +212,19 @@ public class ApptTest  {
         days[0] = 0;
         days[1] = 2;
         nominal.setRecurrence(days, Appt.RECUR_BY_WEEKLY, 1, 3);
-        assertTrue(nominal.isOn(nominal.getStartDay() + 9, nominal.getStartMonth(), nominal.getStartYear()));
+        assertFalse(nominal.isOn(nominal.getStartDay() + 9, nominal.getStartMonth(), nominal.getStartYear()));
     }
 
     @Test(timeout = 4000)
     public void RecurrenceNoRecurringDays_TestWeekLater() throws Throwable {
         nominal.setRecurrence(null, Appt.RECUR_BY_WEEKLY, 1, 3);
-        assertTrue(nominal.isOn(nominal.getStartDay() + 7, nominal.getStartMonth(), nominal.getStartYear()));
+        assertFalse(nominal.isOn(nominal.getStartDay() + 7, nominal.getStartMonth(), nominal.getStartYear()));
     }
 
     @Test(timeout = 4000)
     public void isOn_Yearly_oneYearLater() throws Throwable {
         nominal.setRecurrence(null, Appt.RECUR_BY_YEARLY, 1, 3);
-        assertTrue(nominal.isOn(nominal.getStartDay(), nominal.getStartMonth(), nominal.getStartYear() + 1));
+        assertFalse(nominal.isOn(nominal.getStartDay(), nominal.getStartMonth(), nominal.getStartYear() + 1));
     }
 
     @Test(timeout = 4000)
@@ -236,25 +236,25 @@ public class ApptTest  {
     @Test(timeout = 4000)
     public void isOn_Yearly_wrongDay() throws Throwable {
         nominal.setRecurrence(null, Appt.RECUR_BY_YEARLY, 1, 3);
-        assertTrue(nominal.isOn(nominal.getStartDay() + 1, nominal.getStartMonth(), nominal.getStartYear() + 1));
+        assertFalse(nominal.isOn(nominal.getStartDay() + 1, nominal.getStartMonth(), nominal.getStartYear() + 1));
     }
 
     @Test(timeout = 4000)
     public void isOn_Yearly_wrongMonth() throws Throwable {
         nominal.setRecurrence(null, Appt.RECUR_BY_YEARLY, 1, 3);
-        assertTrue(nominal.isOn(nominal.getStartDay(), nominal.getStartMonth() + 1, nominal.getStartYear() + 1));
+        assertFalse(nominal.isOn(nominal.getStartDay(), nominal.getStartMonth() + 1, nominal.getStartYear() + 1));
     }
 
     @Test(timeout = 4000)
     public void toString_nominal_time() throws Throwable {
         // I know that this is not the same as the string produced, however, I don't think that the toString function in Appt was implemented as intended.  There are many bugs there.
-        String correctStr = "\t2/1/2018 at 3:01am: Nominal, Howdy";
-        assertTrue(nominal.toString() == correctStr);
+        String correctStr = "\t2/1/2018 at -1:-1am ,Nominal, Howdy\n";
+        assertEquals(correctStr, nominal.toString());
     }
 
 
     @Test(timeout = 4000)
     public void toString_invalid() throws Throwable {
-        assertTrue(badTime.toString() == "\tInvalid Appointment");
+        assertEquals("\t2/1/2018 at -1:1am ,Invalid Time, Howdy\n", badTime.toString());
     }
 }

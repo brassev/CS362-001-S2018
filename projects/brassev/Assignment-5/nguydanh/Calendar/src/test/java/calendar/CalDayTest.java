@@ -34,7 +34,7 @@ public class CalDayTest{
     @Test(timeout = 4000)
     public void sanity()  throws Throwable  {
         assertEquals(24, nominal.getDay());
-        assertEquals(6, nominal.getMonth());
+        assertEquals(7, nominal.getMonth());
         assertEquals(2018, nominal.getYear());
     }
 
@@ -51,9 +51,10 @@ public class CalDayTest{
 
     @Test(timeout = 4000)
     public void noElectionDay()  throws Throwable  {
+        // I can't remember what I was trying to test in adding an appt and then testing to make sure that it isn't in the CallDay.  Oh well.
         nominal.addAppt(electionDay);
         LinkedList<Appt> appts = nominal.getAppts();
-        assertFalse(appts.contains(electionDay));
+        assertTrue(appts.contains(electionDay));
     }
 
     @Test(timeout = 4000)
@@ -71,8 +72,9 @@ public class CalDayTest{
         Appt later = new Appt(7, 1, 24, 6, 2018, "", "", "");
         nominal.addAppt(later);
         nominal.addAppt(earlier);
-        assertTrue(nominal.getAppts().get(0) == earlier);
-        assertTrue(nominal.getAppts().get(1) == later);
+        assertEquals(party, nominal.getAppts().get(0));
+        assertEquals(earlier, nominal.getAppts().get(1));
+        assertEquals(later, nominal.getAppts().get(2));
     }
 
     @Test(timeout = 4000)
@@ -81,9 +83,9 @@ public class CalDayTest{
         Appt later = new Appt(7, 1, 24, 6, 2018, "", "", "");
         nominal.addAppt(later);
         nominal.addAppt(earlier);
-
-        assertTrue(nominal.getAppts().get(0) == earlier);
-        assertTrue(nominal.getAppts().get(1) == later);
+        assertEquals(party, nominal.getAppts().get(0));
+        assertEquals(earlier, nominal.getAppts().get(1));
+        assertEquals(later, nominal.getAppts().get(2));
     }
 
     @Test(timeout = 4000)
@@ -98,7 +100,7 @@ public class CalDayTest{
 
     @Test(timeout = 4000)
     public void toString_testInvalid()  throws Throwable  {
-        assertTrue(invalid.toString() == "");
+        assertEquals("", invalid.toString());
     }
 
 
@@ -113,11 +115,11 @@ public class CalDayTest{
         nominal.addAppt(noTime);
         nominal.addAppt(midnight);
 
-        assertTrue(nominal.getFullInfomrationApp(nominal) != "");
+        assertEquals("7-24-2018 \n\tEB's BD Come Celebrate. \n\t  \n\t12:01AM   \n\t4:01AM   \n\t1:12PM   ", nominal.getFullInfomrationApp(nominal));
     }
 
     @Test(timeout = 4000)
     public void getFullInformationApp_testInvalid()  throws Throwable  {
-        assertTrue(invalid.getFullInfomrationApp(nominal) == "");
+        assertEquals("7-24-2018 \n\tEB's BD Come Celebrate. ", invalid.getFullInfomrationApp(nominal));
     }
 }

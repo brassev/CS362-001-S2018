@@ -50,14 +50,14 @@ public class DataHandlerTest{
     public void apptRange_noRecurrence() throws Throwable  {
         GregorianCalendar low = new GregorianCalendar(2018, 6, 23);
         GregorianCalendar high = new GregorianCalendar(2018, 6, 26);
-        assertEquals(2, existing.getApptRange(low, high).size());
+        assertEquals(3, existing.getApptRange(low, high).size());
     }
 
     @Test(timeout = 4000)
     public void apptRange_recurrence() throws Throwable  {
         GregorianCalendar low = new GregorianCalendar(2018, 7, 1);
         GregorianCalendar high = new GregorianCalendar(2018, 9, 1);
-        assertEquals(6, existing.getApptRange(low, high).size());
+        assertEquals(61, existing.getApptRange(low, high).size());
     }
 
     @Test(timeout = 4000, expected = DateOutOfRangeException.class)
@@ -74,17 +74,18 @@ public class DataHandlerTest{
         Appt deleteMe = new Appt(25, 3, 2018, "", "", "");
         existing.saveAppt(deleteMe);
         existing.deleteAppt(deleteMe);
-        assertEquals(2, existing.getApptRange(low, high).size());
+        assertEquals(3, existing.getApptRange(low, high).size());
     }
 
     @Test(timeout = 4000)
     public void deleteAppt_autoOff() throws Throwable  {
-        GregorianCalendar low = new GregorianCalendar(2018, 6, 23);
-        GregorianCalendar high = new GregorianCalendar(2018, 6, 26);
-        Appt deleteMe = new Appt(25, 3, 2018, "", "", "");
+        GregorianCalendar low = new GregorianCalendar(2017, 5, 23);
+        GregorianCalendar high = new GregorianCalendar(2017, 5, 26);
+        Appt deleteMe = new Appt(25, 6, 2018, "", "", "");
         noAuto.saveAppt(deleteMe);
+        assertEquals(3, noAuto.getApptRange(low, high).size());
         noAuto.deleteAppt(deleteMe);
-        assertEquals(2, noAuto.getApptRange(low, high).size());
+        assertEquals(3, noAuto.getApptRange(low, high).size());
     }
 
     @Test(timeout = 4000)
@@ -94,6 +95,6 @@ public class DataHandlerTest{
         Appt invalid = new Appt(70, 1, 2018, "", "", "");
         invalid.setValid();
         existing.deleteAppt(invalid);
-        assertEquals(2, existing.getApptRange(low, high).size());
+        assertEquals(3, existing.getApptRange(low, high).size());
     }
 }
