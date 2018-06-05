@@ -20,6 +20,20 @@ public class ApptTest  {
         badTime = new Appt(-1, 1, 1, 2,  2018, "Invalid Time", "Howdy", "");
     }
 
+    @Test(timeout = 4000)
+    public void TrackingBug() throws Throwable {
+        Appt test = new Appt(5, 40, 10, 6, 2018, "Title", "Description", "EmailAddress");
+        test.setValid();
+        assertTrue(test.getValid());
+    }
+
+    @Test(timeout = 4000)
+    public void TrackingBug2() throws Throwable {
+        Appt test = new Appt(0, 30, 29, 2, 400, "Title", "Description", "EmailAddress");
+        test.setValid();
+        assertFalse(test.getValid());
+    }
+
 	@Test(timeout = 4000)
 	public void test00() throws Throwable {
 		Appt appt0 = new Appt(15, 30, 9, 14, 2018, "Birthday Party", "This is my birthday party", "xyz@gmail.com");
